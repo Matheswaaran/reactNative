@@ -4,7 +4,20 @@ import {Alert, StyleSheet, ScrollView, TouchableOpacity, ToastAndroid, SectionLi
 export default class App extends React.Component {
   constructor(props){
     super(props);
-    this.state = {data: [{key: 'Devin'}, {key: 'Aadhi'}, {key: 'Jackson'}, {key: 'James'}, {key: 'Joel'}, {key: 'John'}, {key: 'Jillian'}, {key: 'Jimmy'}, {key: 'Julie'}, {key: 'Jay'}]};
+    this.state = {data: [
+      {key: 'Aadhi'},
+      {key: 'Caity'},
+      {key: 'Iris'},
+      {key: 'Jackson'},
+      {key: 'James'},
+      {key: 'Joel'},
+      {key: 'John'},
+      {key: 'Jillian'},
+      {key: 'Jimmy'},
+      {key: 'Julie'},
+      {key: 'Devin'},
+      {key: 'Hal'}
+    ]};
   }
 
   renderItemHandler = ({item}) => {
@@ -40,6 +53,12 @@ export default class App extends React.Component {
         value.data.push(record_item);
       }
     });
+    results.sort((a,b) => {
+      if (a.title < b.title) {
+        return -1;
+      }
+      return 1;
+    })
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -65,11 +84,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(247,247,247,1.0)',
   },
   item: {
-    padding: 10,
+    padding: 5,
     fontSize: 18,
     height: 44,
-    margin: 2,
-    color: 'white',
-    backgroundColor: 'green',
   },
 })

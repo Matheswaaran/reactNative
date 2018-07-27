@@ -61,6 +61,7 @@ export default class App extends React.Component {
     })
     return (
       <View style={styles.container}>
+        <Text style={styles.heading}>Section List View</Text>
         <ScrollView>
           <SectionList sections={results} renderItem={this.renderItemHandler} renderSectionHeader={this.renderSectionsHandler} keyExtractor={(item, index) => index}/>
         </ScrollView>
@@ -73,6 +74,10 @@ const styles = StyleSheet.create({
   container: {
    flex: 1,
    paddingTop: 22
+  },
+  heading: {
+    fontSize: 25,
+    paddingBottom: 10
   },
   sectionHeader: {
     paddingTop: 2,

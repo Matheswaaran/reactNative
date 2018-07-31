@@ -8,15 +8,23 @@ export default class App extends React.Component {
     this.state = {isLoading: true, datas: ''};
   }
 
-  componentDidMount(){
-    return fetch('https://api.myjson.com/bins/erh9a')
-      .then((response) => response.json())
-      .then((response) => {
-        this.setState({isLoading: false, datas: response.questions});
-      })
-      .catch((error) => {
-        Alert.alert(error);
-      });
+  async componentDidMount(){
+    // return fetch('https://api.myjson.com/bins/erh9a')
+    //   .then((response) => response.json())
+    //   .then((response) => {
+    //     this.setState({isLoading: false, datas: response.questions});
+    //   })
+    //   .catch((error) => {
+    //     Alert.alert(error);
+    //   });
+
+    try {
+      let response = await fetch('https://api.myjson.com/bins/erh9a');
+      let responseJson = await response.json();
+      this.setState({isLoading: false, datas: responseJson.questions});
+    } catch (e) {
+      Alert.alert(e);
+    }
   }
 
   renderListItemHandler = ({item}) => (

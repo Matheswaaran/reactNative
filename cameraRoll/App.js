@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {CameraRoll, Button, StyleSheet, ToastAndroid, PermissionsAndroid, ScrollView, Alert, Text, View, Image} from 'react-native';
 
 export default class App extends React.Component {
@@ -21,7 +21,7 @@ export default class App extends React.Component {
     CameraRoll.getPhotos({
       first: 20,
       assetType: 'All',
-      groupName: 'Family'
+      groupName: 'Camera'
     }).then( r => {
       this.setState({ photos: r.edges });
     }).catch( (err) => {
@@ -33,7 +33,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Button title="Load Images" onPress={this.onButtonClickHandler} />
-        <ScrollView>
+        <ScrollView style={{marginTop: 20}}>
           {this.state.photos.map((photo, index) => {
             return(
               <Image key={index} style={{width: 300, height:300,}} source={{ uri: photo.node.image.uri }}/>

@@ -8,11 +8,11 @@ class App extends Component {
   }
 
   onBtnPressHandler = () => {
-    Platform.OS === "ios" ? NativeModules.CalenderManager.addEvent('Birthday Party', '4 Privet Drive, Surrey') : null;
+    Platform.OS === "ios" ? NativeModules.CalenderManager.addEvent('Birthday Party', '4 Privet Drive, Surrey') : NativeModules.ToastExample.show("Hai form JS");
   };
 
   onCallBackBtnPressHandler = () => {
-    Platform.OS === "ios" ? NativeModules.CalenderManager.getEvents(this.nativeCallBack) : null;
+    Platform.OS === "ios" ? NativeModules.CalenderManager.getEvents(this.nativeCallBack) : NativeModules.ToastExample.getData(this.nativeCallBack);
   };
 
   nativeCallBack = (value) => {

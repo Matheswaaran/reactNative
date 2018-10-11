@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 import {database_displayname, database_name, database_size, database_version} from "./Utils";
-// SQLite.DEBUG(true);
-// SQLite.enablePromise(false);
 let db;
 
 class App extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {api_value: []};
+        this.state = {api_value: [], data: {}};
+        db = SQLite.openDatabase(database_name, database_version, database_displayname, database_size, this.dbOkCallback, this.dbErrorCallback);
+        this.selectFromDB();
     }
 
     loadApiData = async () => {
@@ -49,26 +49,32 @@ class App extends Component {
     createDBTables = () => {
         db.transaction((tx) => {
             tx.executeSql("CREATE TABLE IF NOT EXISTS collections (id INTEGER NOT NULL, name TEXT NOT NULL, updatedAt TEXT NOT NULL, list_count INTEGER NOT NULL, PRIMARY KEY(id))", [], (tx, results) => {
-                // console.log("CREATE TABLE IF NOT EXISTS Collections");
-                // console.log(results);
             }, (err) => console.log(err));
         }, (err) => console.log(err));
     };
 
     insertIntoDB = () => {
-        db.transaction((tx) => {
-            this.state.api_value.map(x => {
-                tx.executeSql(" INSERT INTO collections (id, name, updatedAt, list_count) VALUES (?,?,?,?)", [x.id, x.name, x.updatedAt, x.list_count], (tx, results) => {
+        // db.transaction((tx) => {
+        //     this.state.api_value.map(x => {
+        //         tx.executeSql(" INSERT INTO collections (id, name, updatedAt, list_count) VALUES (?,?,?,?)", [x.id, x.name, x.updatedAt, x.list_count], (tx, results) => {
+        //
+        //         }, (err) => console.log(err))
+        //     });
+        // }, (err) => console.log(err));
+    };
 
-                }, (err) => console.log(err))
-            });
+    selectFromDB = () => {
+        db.transaction((tx) => {
+            tx.executeSql(" SELECT * FROM collections", [], (tx, results) => {
+                this.setState({ data: results.rows.item(0) });
+            }, (err) => console.log(err))
         }, (err) => console.log(err));
     };
 
     async componentDidMount() {
-        db = SQLite.openDatabase(database_name, database_version, database_displayname, database_size, this.dbOkCallback, this.dbErrorCallback);
+        // db = SQLite.openDatabase(database_name, database_version, database_displayname, database_size, this.dbOkCallback, this.dbErrorCallback);
         await this.loadApiData();
-        this.insertIntoDB();
+        // this.selectFromDB();
     }
 
 
@@ -80,7 +86,7 @@ class App extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>Welcome to React Native!</Text>
-                {/*<Text style={styles.instructions}>{`John has ${this.state.petname}`}</Text>*/}
+                <Text style={styles.instructions}>{JSON.stringify(this.state.data)}</Text>
             </View>
         );
     }
